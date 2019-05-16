@@ -1,0 +1,82 @@
+externals ( stem )
+
+// escape symbols for substituting polish characters
+stringescapes { }
+
+/* Special characters in Unicode Latin Extended-A */
+// special vowels
+stringdef a'   '{U+0105}'  // ą a + ogonek
+stringdef e'   '{U+0119}'  // ę e + ogonek
+stringdef o'   '{U+00F3}'  // ó o + acute
+
+// special consonants
+stringdef c'   '{U+0107}'  // ć c + acute
+stringdef l\   '{U+0142}'  // ł l + stroke
+stringdef n'   '{U+0144}'  // ń n + acute
+stringdef s'   '{U+015B}'  // ś s + acute
+stringdef z'   '{U+017A}'  // ź z + acute
+stringdef z.   '{U+017C}'  // ż z + dot
+
+// [C](VC)^m[V|C]
+// definitions of variables for
+// p1 - position of m = 0
+integers ( p1 )
+
+// groupings
+// v - polish vowels
+groupings ( v )
+
+// v - all polish vowels
+define v 'aeiyou{a'}{e'}{o'}'
+
+// all polish stemmer routines: 4 steps
+routines (
+  R1 A1 A2 A3 fix_gd fix_conflicts
+)
+
+backwardmode (
+
+  define R1 as $p1 <= cursor
+  define A1 as (
+    [substring] among (
+      'ego' 'emu' 'm' 'e' 'ch' 'mi' 'a' 'ej' '{a'}' 'em'
+    )
+    
+    test 'i'
+    delete
+  )
+
+  define A2 as (
+    [substring] among (
+      'y' 'ego' 'emu' 'ym' 'e' 'ych' 'ymi' 'owie' 'em' //FIXME: conflict 'e' vs. 'owie'
+      '{o'}w' 'om' 'ami' 'ach' 'i'
+      'a' 'ej '{a'}' //conflicts with A3 for sure
+    )
+    
+    //test 'c' or 'z' or '{z.}' or 'r' or 'd' or 'w'
+    delete
+  )
+
+  define A3 as (
+    [substring] among (
+      'ki' 'kiego' 'kiemu' 'kim' 'cy' 'kie' 'kich' 'kimi' //FIXME: conflict 'cy' vs. 'y', 'ki' vs. 'i'
+      'ka' 'kiej' 'k{a'}'
+    )
+    
+    test 's'
+    delete
+  )
+
+)
+
+define stem as (
+
+  $p1 = limit
+
+  backwards (
+    do A1
+    do A2
+    do A3
+  )
+
+)
