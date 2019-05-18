@@ -31,7 +31,7 @@ define v 'aeiyou{a'}{e'}{o'}'
 
 // all polish stemmer routines: 4 steps
 routines (
-  R1 A1 A2 A3 fix_gd fix_conflicts
+  R1 A1 A2 A3 B1 B1l B1n B1s B2ce B2cei B2cein B2 B3g B3k B3u B3w B4 B4ni B4r C1c C1n C2 C3 C4 D1 D1c0i D2 D3k D4
 )
 
 backwardmode (
@@ -48,9 +48,9 @@ backwardmode (
 
   define A2 as (
     [substring] among (
-      'y' 'ego' 'emu' 'ym' 'e' 'ych' 'ymi' 'owie' 'em' //FIXME: conflict 'e' vs. 'owie'
+      'y' 'ego' 'emu' 'ym' 'e' 'ych' 'ymi' 'ow' 'em' //'ow' replaces 'owie' to nullify conflict with B1
       '{o'}w' 'om' 'ami' 'ach' 'i'
-      'a' 'ej '{a'}' //conflicts with A3 for sure
+      'a' 'ej' '{a'}' //conflicts with A3 for sure
     )
     
     //test 'c' or 'z' or '{z.}' or 'r' or 'd' or 'w'
@@ -59,7 +59,7 @@ backwardmode (
 
   define A3 as (
     [substring] among (
-      'ki' 'kiego' 'kiemu' 'kim' 'cy' 'kie' 'kich' 'kimi' //FIXME: conflict 'cy' vs. 'y', 'ki' vs. 'i'
+      'ki' 'kiego' 'kiemu' 'kim' 'cy' 'kie' 'kich' 'kimi' 
       'ka' 'kiej' 'k{a'}'
     )
     
@@ -67,16 +67,250 @@ backwardmode (
     delete
   )
 
+  define B1 as (
+    [substring] among (
+      'ia' 'iowi' 'iem' 'iu' 'ie' 'i' 'iom' 'iami' 'iach' 'i{o'}w'
+    )
+    
+    test 'b' or 'p' or 'm' or 'w' //TODO: specjalne przypadki np. Bolcie
+    delete
+  )
+
+  define B1l as (
+    [substring] among (
+      'a' 'owi' 'em' 'u' 'e' 'i' 'om' 'ami' 'ach'
+    )
+    
+    test 'l'
+    delete
+  )
+
+  define B1n as (
+    [substring] among (
+      '{n'}' 'nia' 'niowi' 'niem' 'niu' 'nie' 'ni' 'niom' 'niami' 'niach' 'ni{o'}w'
+    )
+    
+    delete
+  )
+
+  define B1s as (
+    [substring] among (
+      '{s'}' 'sia' 'siowi' 'siem' 'siu' 'sie' 'si' 'siom' 'siami' 'siach' 'si{o'}w'
+    )
+    
+    delete
+  )
+
+  define B2ce as (
+    [substring] among (
+      'ec' 'ca' 'cowi' 'cem' 'cu' 'cy' 'ce' 'c{o'}w' 'com' 'cami' 'cach'
+    )
+    
+    test 'j' or 'l' or '{z.}'
+    delete
+  )
+
+  define B2cei as (
+    [substring] among (
+      'iec' 'ca' 'cowi' 'cem' 'cu' 'cy' 'ce' 'c{o'}w' 'com' 'cami' 'cach'
+    )
+    
+    test 'w' //TODO some exceptions
+    delete
+  )
+
+  define B2cein as (
+    [substring] among (
+      'niec' '{n'}ca' '{n'}cowi' '{n'}cem' '{n'}cu' '{n'}cy' '{n'}ce' '{n'}c{o'}w' '{n'}com' '{n'}cami' '{n'}cach'
+    )
+
+    delete
+  )
+
+  define B2 as (
+    [substring] among (
+      'a' 'owi' 'em' 'u' 'e' '{o'}w' 'om' 'ami' 'ach' 'y' 'owie'
+    )
+
+    delete
+  )
+
+  define B3g as (
+    [substring] among (
+      'g' 'ga' 'gowi' 'giem' 'gu' 'dzy' 'gi' 'g{o'}w' 'gom' 'gami' 'gach'
+    )
+
+    delete
+  )
+
+  define B3k as (
+    [substring] among (
+      'k' 'ka' 'kowi' 'kiem' 'ku' 'cy' 'ki' 'k{o'}w' 'kom' 'kami' 'kach' 'ek' 'kowie'
+    )
+
+    delete
+  )
+
+  define B3u as (
+    [substring] among (
+      'u' 'owi' 'iem' 'i' '{o'}w' 'om' 'ami' 'ach'
+    )
+
+    test 'k' or 'g'
+    delete
+  )
+
+  define B3w as (
+    [substring] among (
+      'a' 'owi' 'iem' 'u' 'owie' 'i' '{o'}w' 'om' 'ami' 'ach'
+    )
+
+    test 'k' or 'g'
+    delete
+  )
+
+  define B4 as (
+    [substring] among (
+      'a' 'owi' 'em' 'ie' 'owie' 'y' '{o'}w' 'om' 'ami' 'ach' 'i'
+    )
+
+    delete
+  )
+
+  define B4ni as (
+    [substring] among (
+      'in' 'ina' 'inowi' 'inem' 'inie' 'ie' 'y' 'om' 'ami' 'ach' '{o'}w'
+    )
+
+    test 'n'
+    delete
+  )
+
+  define B4r as (
+    [substring] among (
+      'u' 'owi' 'em' 'ze' 'y' '{o'}w' 'om' 'ami' 'ach' 'owie' 'a' 'zy'
+    )
+
+    test 'r'
+    delete
+  )
+
+  define C1c as (
+    [substring] among (
+      'cie' 'cia' 'ciu' 'ciem' '{c'}' 'ciom' 'ciami' 'ciach'
+    )
+
+    delete
+  )
+
+  define C1n as (
+    [substring] among (
+      'nie' 'nia' 'niu' 'niem' '{n'}' 'niom' 'niami' 'niach'
+    )
+
+    delete
+  )
+
+  define C2 as (
+    [substring] among (
+      'e' 'a' 'u' 'em' 'om' 'ami' 'ach'
+    )
+
+    delete
+  )
+
+  define C3 as (
+    [substring] among (
+      'e' 'a' 'u' 'iem' 'om' 'ami' 'ach'
+    )
+
+    test 'k' or 'g'
+    delete
+  )
+
+  define C4 as (
+    [substring] among (
+      'o' 'a' 'u' 'em' 'ie' 'om' 'ami' 'ach' '{o'}w'
+    )
+
+    delete
+  )
+
+  define D1 as (
+    [substring] among (
+      'a' 'i' '{e'}' '{a'}' 'o' 'owie' 'e' '{o'}w' 'om' 'ami' 'ach'
+    )
+
+    delete
+  )
+
+  define D1c0i as (
+    [substring] among (
+      '{c'}' 'ci' 'ci{a'}' 'ciom' 'ciami' 'ciach'
+    )
+
+    test '{s'}'
+    delete
+  )
+
+  define D2 as (
+    [substring] among (
+      'a' 'y' '{e'}' '{a'}' 'o' 'e' '{o'}w' 'om' 'ami' 'ach'
+    )
+
+    delete
+  )
+
+  define D3k as (
+    [substring] among (
+      'ka' 'ki' 'ce' 'k{e'}' 'k{a'}' 'ko' 'cy' 'k{o'}w' 'k' 'kom' 'kami' 'kach' 'kowie' 'ek'
+    )
+
+    delete
+  )
+
+  define D4 as (
+    [substring] among (
+      'a' 'y' 'ie' '{e'}' '{a'}' 'o' '{o'}w' 'om' 'ami' 'ach' 'owie' 'ek'
+    )
+
+    delete
+  )
 )
 
 define stem as (
 
   $p1 = limit
 
-  backwards (
+  backwards (//C1c C1n C2 C3 C4 C4+(ów) D1 D1ć0+i D2 D3k D3ke D4
+    do D1c0i
+    do C3 //overstemming
+    do C1n //overstemming
+    do C1c
+    do B4r
+    do B4ni
+    do B3w //overstemming
+    do B3u //overstemming
+    do B3k //overstemming
+    do B3g
+    do B2cein //overstemming
+    do B2cei //overstemming
+    do B2ce
+    do D3k
+    do D2 //understemming
+    do A3
+    do B1s
+    do B1n //overstemming
+    do B1l
+    do B1
     do A1
     do A2
-    do A3
+    do B2
+    do B4 //overstemming
+    do C2 //huge overstemming
+    do C4
+    do D1 //overstemming
+    do D4
   )
 
 )
