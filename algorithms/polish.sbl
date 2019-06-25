@@ -31,7 +31,8 @@ define v 'aeiyou{a'}{e'}{o'}'
 
 // all polish stemmer routines
 routines (
-  A1 A3 B1 B1l B2ce B2cei B3u B3w B4ni B4r C3 D1c0i generic_noun noun V01 V03 V04 V05 V06 V06y V08ujeiwa V08ujeywa generic_verb verb
+  //names of most routines approximately represent Polish inflection patterns described at www.sgjp.pl
+  A1 A3 B1 B1l B2ce B2cei B3u B3w B4ni B4r C3 D1c0i generic word V01 V03 V04 V05 V06 V06y V08ujeiwa V08ujeywa
 )
 
 backwardmode (
@@ -145,8 +146,9 @@ backwardmode (
     delete
   )
 
-  define generic_noun as (
+  define generic as (
     [substring] among (
+      //noun
       'y' 'ego' 'emu' 'ym' 'e' 'ych' 'ymi' 'owie' 'em'
       '{o'}w' 'om' 'ami' 'ach' 'i'
       'a' 'ej' '{a'}' //conflicts with A3 for sure
@@ -165,13 +167,25 @@ backwardmode (
       
       'ce' 'k{e'}' 'k{a'}' 'ko'
       
+      //verb
+      'eje' 'ej{e'}' 'ej{a'}' 'e{c'}' 'a{l\}' 'aw' 'el' 'an' 'en' 'e{n'}'
+      'uje' 'uj{e'}' 'uj{a'}' 'uj' 'owa{c'}' 'owa{l\}' 'owaw' 'owal' 'owan' 'owa{n'}' 'owani'
+      'n{e'}' 'n{a'}' 'nij' 'n{a'}{c'}' '{l\}' 'l' 'ni{e'}t' 'ni{e'}c' 'ni{e'}{c'}' 'ni{e'}ci'
+      'ij' '{a'}{c'}' '{a'}{l\}' '{a'}w' '{e'}{l\}' '{e'}l' 'i{e'}t' 'i{e'}c' 'i{e'}{c'}' 'i{e'}ci'
+      'n{a'}{l\}' 'n{a'}w' 'n{e'}{l\}' 'n{e'}l' //TODO check for vowel
+      'ci' 'c{e'}' 'c{a'}' 'ci{c'}' 'ci{l\}' 'ciw' 'cil' 'con' 'cen' 'ce{n'}' 'ceni'
+      'i{e'}' 'i{a'}' 'i{c'}' 'i{l\}' 'il' 'ion' 'ien' 'ie{n'}' 'ieni'
+      'j' 'w' 'on' 'eni'
+      'iw'
+      'zi' 'z{e'}' 'z{a'}' '{z'}' 'zi{c'}' 'zi{l\}' 'ziw' 'zil' 'zon' 'zen' 'ze{n'}' 'zeni'
+      'ywa{c'}' 'ywa{l\}' 'ywaw' 'ywal' 'ywan' 'ywa{n'}' 'ywani'
     )
 
     delete
   )
 
-  define noun as (
-    A1 or A3 or B1 or B1l or B2ce or B2cei or B3u or B3w or B4ni or B4r or C3 or D1c0i or generic_noun
+  define word as (
+    V08ujeiwa or A1 or A3 or B1 or B1l or B2ce or B2cei or B3u or B3w or B4ni or B4r or C3 or D1c0i or generic or V06y or V01
   )
 
   define V01 as ( //spec
@@ -223,7 +237,7 @@ backwardmode (
 
   define V06y as ( //spec
     [substring] among (
-      'y' '{e'}' '{a'}' 'y{c'}' 'y{l\}' 'yw' 'yl' 'on' 'en' 'e{n'}' 'eni'
+      'y' '{e'}' '{a'}' 'y{c'}' 'y{l\}' 'yw' 'yl' 'on' 'en' 'e{n'}' 'eni' //understemming with '{l\}'
     )
 
     test 'z' or '{z.}'
@@ -247,28 +261,6 @@ backwardmode (
     delete
   )
 
-  define generic_verb as (
-    [substring] among (
-      'eje' 'ej{e'}' 'ej{a'}' 'ej' 'e{c'}' 'a{l\}' 'aw' 'el' 'an' 'en' 'e{n'}'
-      'uje' 'uj{e'}' 'uj{a'}' 'uj' 'owa{c'}' 'owa{l\}' 'owaw' 'owal' 'owan' 'owa{n'}' 'owani'
-      'nie' 'n{e'}' 'n{a'}' 'nij' 'n{a'}{c'}' '{l\}' 'l' 'ni{e'}t' 'ni{e'}c' 'ni{e'}{c'}' 'ni{e'}ci'
-      'ie' '{e'}' '{a'}' 'ij' '{a'}{c'}' '{a'}{l\}' '{a'}w' '{e'}{l\}' '{e'}l' 'i{e'}t' 'i{e'}c' 'i{e'}{c'}' 'i{e'}ci'
-      '{n'}' 'n{a'}{l\}' 'n{a'}w' 'n{e'}{l\}' 'n{e'}l' //TODO check for vowel
-      'ci' 'c{e'}' 'c{a'}' '{c'}' 'ci{c'}' 'ci{l\}' 'ciw' 'cil' 'con' 'cen' 'ce{n'}' 'ceni'
-      'i' 'i{e'}' 'i{a'}' 'i{c'}' 'i{l\}' 'il' 'ion' 'ien' 'ie{n'}' 'ieni'
-      'j' 'w' 'on' 'eni'
-      'iw'
-      'zi' 'z{e'}' 'z{a'}' '{z'}' 'zi{c'}' 'zi{l\}' 'ziw' 'zil' 'zon' 'zen' 'ze{n'}' 'zeni'
-      'ywa{c'}' 'ywa{l\}' 'ywaw' 'ywal' 'ywan' 'ywa{n'}' 'ywani'
-    )
-
-    delete
-  )
-
-  define verb as (
-    V06y or V08ujeiwa or generic_verb or V01
-  )
-
 )
 
 define stem as (
@@ -276,7 +268,7 @@ define stem as (
   $p1 = limit
 
   backwards (
-    do (noun or verb)
+    do word
   )
 
 )
