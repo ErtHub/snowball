@@ -32,10 +32,24 @@ define v 'aeiyou{a'}{e'}{o'}'
 // all polish stemmer routines
 routines (
   //names of most routines approximately represent Polish inflection patterns described at www.sgjp.pl
-  A1 A3 B1 B1l B2ce B2cei B3u B3w B4ni B4r C3 D1c0i generic word V01 V03 V04 V05 V06 V06y V08ujeiwa V08ujeywa
+  A1 A3 B1 B1l B2ce B2cei B3u B3w B4ni B4r C3 D1c0i generic word V01 V03 V04 V05 V06 V06y V08ujeiwa V08ujeywa verb_general common
 )
 
 backwardmode (
+
+  define common as (
+    [substring] among (
+      'y' 'em' 'i' 'a' 'cie' 'o'
+    )
+
+    delete
+  )
+
+  define verb_general as (
+    substring among (
+      'sz' 'my' 'cie' 'em' 'e{s'}' 'am' 'a{s'}' 'a' 'om' 'o{s'}' 'o' 'i{s'}my' 'i{s'}cie' 'i' 'y{s'}my' 'y{s'}cie' 'y' 'bym' 'by{s'}' 'by' 'abym' 'aby{s'}' 'aby' 'obym' 'obyś' 'oby' 'iby{s'}my' 'iby{s'}cie' 'iby' 'yby{s'}my' 'yby{s'}cie' 'yby' 'szy'
+    )
+  )
 
   define A1 as ( //spec
     [substring] among (
@@ -147,25 +161,26 @@ backwardmode (
   )
 
   define generic as (
-    [substring] among (
+    [try verb_general substring] among (
       //noun
-      'y' 'ego' 'emu' 'ym' 'e' 'ych' 'ymi' 'owie' 'em'
-      '{o'}w' 'om' 'ami' 'ach' 'i'
-      'a' 'ej' '{a'}' //conflicts with A3 for sure
-      '{n'}' 'nia' 'niowi' 'niem' 'niu' 'nie' 'ni' 'niom' 'niami' 'niach' 'ni{o'}w'
-      '{s'}' 'sia' 'siowi' 'siem' 'siu' 'sie' 'si' 'siom' 'siami' 'siach' 'si{o'}w'
-      'niec' '{n'}ca' '{n'}cowi' '{n'}cem' '{n'}cu' '{n'}cy' '{n'}ce' '{n'}c{o'}w' '{n'}com' '{n'}cami' '{n'}cach'
-      'owi' 'u'
-      'g' 'ga' 'gowi' 'giem' 'gu' 'dzy' 'gi' 'g{o'}w' 'gom' 'gami' 'gach'
-      'k' 'ka' 'kowi' 'kiem' 'ku' 'cy' 'ki' 'k{o'}w' 'kom' 'kami' 'kach' 'ek' 'kowie'
+      'eg' 'emu' 'ym' 'e' 'ych' 'owie'
+      '{o'}w' 'om' 'am' 'ach'
+      'ej' '{a'}' //conflicts with A3 for sure
+      '{n'}' 'n' 'niow' 'niu' 'nie' 'niam' 'niach' 'ni{o'}w'
+      '{s'}' 's' 'siow' 'siu' 'sie' 'siam' 'siach' 'si{o'}w'
+      'niec' '{n'}c' '{n'}cow' '{n'}cu' '{n'}ce' '{n'}c{o'}w' '{n'}cam' '{n'}cach'
+      'ow' 'u'
+      'gow' 'g' 'gu' 'dz' 'g{o'}w' 'gam' 'gach'
+      'k' 'kow' 'ku' 'c' 'k{o'}w' 'kam' 'kach' 'ek' 'kowie'
       'ie' //overstemming: 'akwamary-nie'
-      'cie' 'cia' 'ciu' 'ciem' '{c'}' 'ciom' 'ciami' 'ciach'
+      'ciu' '{c'}' 'ciam' 'ciach'
+
+      'ni' 'si' 'gi' 'ki' 'ci'
       
       
-      'o'
       '{e'}'
       
-      'ce' 'k{e'}' 'k{a'}' 'ko'
+      'ce' 'k{e'}' 'k{a'}'
       
       //verb
       'eje' 'ej{e'}' 'ej{a'}' 'e{c'}' 'a{l\}' 'aw' 'el' 'an' 'en' 'e{n'}'
@@ -173,11 +188,11 @@ backwardmode (
       'n{e'}' 'n{a'}' 'nij' 'n{a'}{c'}' '{l\}' 'l' 'ni{e'}t' 'ni{e'}c' 'ni{e'}{c'}' 'ni{e'}ci'
       'ij' '{a'}{c'}' '{a'}{l\}' '{a'}w' '{e'}{l\}' '{e'}l' 'i{e'}t' 'i{e'}c' 'i{e'}{c'}' 'i{e'}ci'
       'n{a'}{l\}' 'n{a'}w' 'n{e'}{l\}' 'n{e'}l' //TODO check for vowel
-      'ci' 'c{e'}' 'c{a'}' 'ci{c'}' 'ci{l\}' 'ciw' 'cil' 'con' 'cen' 'ce{n'}' 'ceni'
+      'c{e'}' 'c{a'}' 'ci{c'}' 'ci{l\}' 'ciw' 'cil' 'con' 'cen' 'ce{n'}' 'ceni'
       'i{e'}' 'i{a'}' 'i{c'}' 'i{l\}' 'il' 'ion' 'ien' 'ie{n'}' 'ieni'
       'j' 'w' 'on' 'eni'
       'iw'
-      'zi' 'z{e'}' 'z{a'}' '{z'}' 'zi{c'}' 'zi{l\}' 'ziw' 'zil' 'zon' 'zen' 'ze{n'}' 'zeni'
+      'z' 'z{e'}' 'z{a'}' '{z'}' 'zi{c'}' 'zi{l\}' 'ziw' 'zil' 'zon' 'zen' 'ze{n'}' 'zeni'
       'ywa{c'}' 'ywa{l\}' 'ywaw' 'ywal' 'ywan' 'ywa{n'}' 'ywani'
     )
 
@@ -185,11 +200,11 @@ backwardmode (
   )
 
   define word as (
-    V08ujeiwa or A1 or A3 or B1 or B1l or B2ce or B2cei or B3u or B3w or B4ni or B4r or C3 or D1c0i or generic or V06y or V01
+    V08ujeiwa or A1 or A3 or B1 or B1l or B2ce or B2cei or B3u or B3w or B4ni or B4r or C3 or D1c0i or generic or V06y or V01 or common
   )
 
   define V01 as ( //spec
-    [substring] among (
+    [try verb_general substring] among (
       'm' 'j{a'}' 'j' '{c'}' '{l\}' 'l' 'n' '{n'}' 'ni'
     )
 
@@ -236,7 +251,7 @@ backwardmode (
   )
 
   define V06y as ( //spec
-    [substring] among (
+    [try verb_general substring] among (
       'y' '{e'}' '{a'}' 'y{c'}' 'y{l\}' 'yw' 'yl' 'on' 'en' 'e{n'}' 'eni' //understemming with '{l\}'
     )
 
@@ -245,7 +260,7 @@ backwardmode (
   )
 
   define V08ujeiwa as ( //spec
-    [substring] among (
+    [try verb_general substring] among (
       'uje' 'uj{e'}' 'uj{a'}' 'uj' 'iwa{c'}' 'iwa{l\}' 'iwaw' 'iwal' 'iwan' 'iwa{n'}' 'iwani'
     )
 
